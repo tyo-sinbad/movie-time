@@ -1,12 +1,16 @@
 <template>
-  <div class="bg-white">
+  <div class="bg-white min-h-screen flex flex-col">
     <header class="h-12 bg-dark">
       <TopBar />
     </header>
 
-    <main style="padding: 32px">
+    <main class="bg-secondary mt-8 flex-grow">
       <RouterView />
     </main>
+
+    <footer class="bg-dark text-white h-12">
+      <FooterBar />
+    </footer>
   </div>
 </template>
 

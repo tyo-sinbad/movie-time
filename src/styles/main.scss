@@ -7,12 +7,12 @@
   @apply font-primary bg-grey text-[#303133];
 }
 
-.ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-}
+// .ellipsis {
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   display: -webkit-box;
+//   -webkit-box-orient: vertical;
+// }
 
 .ellipsis-1 {
   @extend .ellipsis;

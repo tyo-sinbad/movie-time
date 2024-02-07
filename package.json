@@ -20,6 +20,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.6",
     "element-plus": "^2.3.5",
     "pinia": "^2.1.7",
+    "swiper": "^11.0.6",
     "typeface-montserrat": "^1.1.13",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"

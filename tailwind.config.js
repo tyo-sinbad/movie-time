@@ -4,17 +4,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        regular: '#606266',
-        dark: '#1B1D21',
-        secondary: '#909399',
-        error: '#F56C6C',
-        grey: '#F2F3F5',
-        'border-regular': '#DCDFE6',
-        'border-light': '#EBEEF5'
+        regular: '#292e35',
+        secondary: '#1e232a',
+        'red-100': '#e74c3c',
+        'red-200': '#ff0000',
+        grey: '#8d9194'
       }
     },
     fontFamily: {
-      primary: ['Roboto', 'sans-serif']
+      primary: ['Montserrat']
     }
   },
   variants: {

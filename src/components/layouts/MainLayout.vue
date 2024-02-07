@@ -1,15 +1,13 @@
 <template>
-  <el-container class="bg-white">
-    <el-container>
-      <el-header class="h-12 bg-dark">
-        <TopBar />
-      </el-header>
+  <div class="bg-white">
+    <header class="h-12 bg-dark">
+      <TopBar />
+    </header>
 
-      <el-main style="padding: 32px">
-        <RouterView />
-      </el-main>
-    </el-container>
-  </el-container>
+    <main style="padding: 32px">
+      <RouterView />
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">

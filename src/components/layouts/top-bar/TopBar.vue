@@ -1,65 +1,86 @@
 <template>
-  <nav class="bg-white shadow-lg fixed w-full top-0 z-10 left-0">
-    <div class="container mx-auto px-4">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex-row flex">
-          <!-- Logo -->
-          <div>
-            <a
-              href="#"
-              class="flex items-center text-gray-800 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              <span>Your Logo</span>
-            </a>
-          </div>
-          <!-- Search Input -->
-          <div class="hidden md:flex ml-4 relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              class="bg-gray-100 border-2 border-gray-200 h-10 px-5 pr-10 rounded-lg text-sm focus:outline-none w-full flex"
-            />
-            <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
-              <!-- Font Awesome search icon -->
-              <i class="fas fa-search text-gray-400"></i>
-            </button>
-          </div>
-        </div>
+  <nav class="bg-regular text-white p-4 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center px-5 ml-24">
+      <img src="../../../assets/icons/movietime-logo.svg" />
+    </div>
 
-        <!-- Menu Items -->
-        <div class="hidden md:flex space-x-4">
-          <a
-            href="#"
-            class="text-gray-800 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >Home</a
-          >
-          <a
-            href="#"
-            class="text-gray-800 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >About</a
-          >
-          <a
-            href="#"
-            class="text-gray-800 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >Services</a
-          >
-          <a
-            href="#"
-            class="text-gray-800 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >Contact</a
-          >
+    <!-- Search Bar -->
+    <div
+      class="flex flex-1 items-center px-4 py-2 rounded-lg bg-secondary text-white focus:outline-none focus:bg-gray-900 mx-8 font-thin placeholder-white text-base"
+    >
+      <!-- Left Search Icon -->
+      <div class="mr-2">
+        <img src="../../../assets/icons/ic_movie.svg" />
+      </div>
+      <input
+        type="text"
+        placeholder="Find Movie"
+        class="flex-1 px-2 py-1 bg-transparent text-white focus:outline-none"
+      />
+      <!-- Right Search Icon -->
+      <div class="ml-2">
+        <font-awesome-icon :icon="['fas', 'fa-search']" class="fa-sm mr-2" />
+      </div>
+    </div>
+
+    <!-- Menu -->
+    <div class="flex items-center space-x-4 relative mx-4 mr-24">
+      <!-- Category Menu -->
+      <div
+        class="relative"
+        @mouseover="showCategoryMenu = true"
+        @mouseleave="hideCategoryMenu"
+        @mouseenter="clearCategoryMenuTimeout"
+      >
+        <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">CATEGORIES</a>
+        <!-- Dropdown Menu -->
+        <div
+          v-show="showCategoryMenu"
+          @mouseenter="clearCategoryMenuTimeout"
+          @mouseleave="hideCategoryMenu"
+          class="absolute top-full left-0 mt-2 bg-gray-800 text-white py-2 rounded-lg shadow-md z-10"
+        >
+          <a href="#" class="block px-4 py-2 hover:bg-gray-700">Action</a>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-700">Horror</a>
+          <!-- Add more sub-menu items as needed -->
         </div>
       </div>
+
+      <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">MOVIES</a>
+      <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">TV SHOWS</a>
+      <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">LOGIN</a>
     </div>
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: 'TopNavbar'
+  name: 'TopNavigation',
+  data() {
+    return {
+      showCategoryMenu: false,
+      categoryMenuTimeout: null
+    }
+  },
+  methods: {
+    hideCategoryMenu() {
+      this.categoryMenuTimeout = setTimeout(() => {
+        this.showCategoryMenu = false
+      }, 200) as any
+    },
+    clearCategoryMenuTimeout() {
+      clearTimeout(this.categoryMenuTimeout as any)
+    }
+  },
+  beforeUnmount() {
+    clearTimeout(this.categoryMenuTimeout as any)
+  }
 }
 </script>
 
 <style scoped>
-/* Add your custom styles here */
+nav {
+  width: 100vw;
+}
 </style>

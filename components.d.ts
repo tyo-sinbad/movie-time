@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     MainLayout: typeof import('./src/components/layouts/MainLayout.vue')['default']
+    MovieCard: typeof import('./src/components/card/MovieCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopBar: typeof import('./src/components/layouts/top-bar/TopBar.vue')['default']

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white min-h-screen flex flex-col">
+  <div class="bg-white flex flex-col">
     <header class="h-12 bg-dark">
       <TopBar />
     </header>

@@ -41,7 +41,7 @@
           @mouseleave="hideCategoryMenu"
           class="absolute top-full left-0 mt-2 bg-gray-800 text-white py-2 rounded-lg shadow-md z-10"
         >
-          <a href="#" class="block px-4 py-2 hover:bg-gray-700">Action</a>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-700" @click="navigateToAction">Action</a>
           <a href="#" class="block px-4 py-2 hover:bg-gray-700">Horror</a>
           <!-- Add more sub-menu items as needed -->
         </div>
@@ -55,6 +55,8 @@
 </template>
 
 <script lang="ts">
+import { useRouter } from 'vue-router'
+const router = useRouter()
 export default {
   name: 'TopNavigation',
   data() {
@@ -71,6 +73,9 @@ export default {
     },
     clearCategoryMenuTimeout() {
       clearTimeout(this.categoryMenuTimeout as any)
+    },
+    navigateToAction() {
+      this.$router.push({ name: 'category', params: { action: 'action' } })
     }
   },
   beforeUnmount() {
@@ -79,8 +84,4 @@ export default {
 }
 </script>
 
-<style scoped>
-nav {
-  width: 100vw;
-}
-</style>
+<style scoped></style>

@@ -4,7 +4,7 @@
       <TopBar />
     </header>
 
-    <main class="bg-secondary mt-8 flex-grow">
+    <main class="bg-regular mt-8 flex-grow">
       <RouterView />
     </main>
 

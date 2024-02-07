@@ -18,6 +18,8 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.6",
+    "@types/axios": "^0.14.0",
+    "axios": "^1.6.7",
     "element-plus": "^2.3.5",
     "pinia": "^2.1.7",
     "swiper": "^11.0.6",

@@ -1,14 +1,12 @@
 <template>
-  <nav class="bg-regular text-white p-4 flex items-center justify-between">
+  <nav :class="$route.name === 'detail' ? 'detail-top-nav' : 'other-top-nav'">
     <!-- Logo -->
     <div class="flex items-center px-5 ml-24 cursor-pointer" @click="navigateToHome()">
       <img src="../../../assets/icons/movietime-logo.svg" />
     </div>
 
     <!-- Search Bar -->
-    <div
-      class="flex relative flex-1 items-center px-4 py-2 rounded-lg bg-secondary text-white focus:outline-none focus:bg-gray-900 mx-8 font-thin placeholder-white text-base"
-    >
+    <div :class="$route.name === 'detail' ? 'search-detail-top-nav' : 'search-other-top-nav'">
       <!-- Left Search Icon -->
       <div class="mr-2">
         <img src="../../../assets/icons/ic_movie.svg" />
@@ -16,7 +14,7 @@
       <input
         type="text"
         placeholder="Find Movie"
-        class="flex-1 px-2 py-1 bg-transparent text-white focus:outline-none"
+        :class="$route.name === 'detail' ? 'input-detail-top-nav' : 'input-other-top-nav'"
         v-model="searchQuery"
         @input="handleInput"
       />
@@ -186,4 +184,25 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style>
+.detail-top-nav {
+  @apply bg-regular text-white p-4 flex items-center justify-between z-50 relative bg-opacity-20;
+}
+
+.other-top-nav {
+  @apply bg-regular text-white p-4 flex items-center justify-between z-50 relative;
+}
+.search-detail-top-nav {
+  @apply flex relative flex-1 items-center px-4 py-2 rounded-lg bg-secondary text-white focus:outline-none focus:bg-gray-900 mx-8 font-thin placeholder-white text-base bg-opacity-20;
+}
+
+.search-other-top-nav {
+  @apply flex relative flex-1 items-center px-4 py-2 rounded-lg bg-secondary text-white focus:outline-none focus:bg-gray-900 mx-8 font-thin placeholder-white text-base;
+}
+.input-detail-top-nav {
+  @apply flex-1 px-2 py-1 bg-transparent text-white focus:outline-none placeholder-white;
+}
+.input-other-top-nav {
+  @apply flex-1 px-2 py-1 bg-transparent text-white focus:outline-none;
+}
+</style>

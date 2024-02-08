@@ -4,7 +4,7 @@
       <TopBar />
     </header>
 
-    <main class="bg-regular mt-8 flex-grow">
+    <main :class="$route.name === 'detail' ? 'detail-page' : 'other-page'">
       <RouterView />
     </main>
 
@@ -27,3 +27,13 @@ onMounted(() => {
   router.replace({ name: 'home' })
 })
 </script>
+
+<style>
+.detail-page {
+  @apply bg-white mt-8 flex-grow;
+}
+
+.other-page {
+  @apply bg-secondary mt-8 flex-grow;
+}
+</style>

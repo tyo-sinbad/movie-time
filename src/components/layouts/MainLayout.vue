@@ -34,6 +34,6 @@ onMounted(() => {
 }
 
 .other-page {
-  @apply bg-secondary mt-8 flex-grow;
+  @apply bg-regular mt-8 flex-grow;
 }
 </style>

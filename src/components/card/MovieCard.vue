@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     navigateToDetail(id) {
+      localStorage.setItem('previousPage', this.$route.name)
       this.$router.push({ name: 'detail', params: { movie_id: id } })
     }
   }

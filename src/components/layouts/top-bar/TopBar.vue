@@ -59,13 +59,13 @@
           @mouseleave="hideCategoryMenu"
           class="absolute top-full mt-2 bg-gray-800 text-white py-2 rounded-lg shadow-md z-10 w-40"
         >
-          <a
-            href="#"
+          <router-link
             v-for="(genre, index) in genreData"
             :key="index"
+            :to="{ name: 'category', params: { action: genre.id } }"
             class="block px-4 py-2 hover:bg-gray-700"
-            @click="navigateToAction(genre.id)"
-            >{{ genre.name }}</a
+            @click.prevent="navigateToAction(genre.id)"
+            >{{ genre.name }}</router-link
           >
         </div>
       </div>

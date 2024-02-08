@@ -97,7 +97,8 @@ export default {
       categoryMenuTimeout: null,
       searchQuery: '',
       searchResults: [],
-      showResults: false
+      showResults: false,
+      currentCategoryId: null
     }
   },
   methods: {
@@ -110,8 +111,16 @@ export default {
       clearTimeout(this.categoryMenuTimeout as any)
     },
     navigateToAction(id: number) {
-      this.$router.push({ name: 'category', params: { action: id } })
+      if (this.currentCategoryId !== id) {
+        this.$router.push({ name: 'category', params: { action: id } })
+      } else {
+        this.refreshCategoryComponent(id)
+      }
     },
+    refreshCategoryComponent(id: number) {
+      console.log('Refresh Category Component with ID:', id)
+    },
+
     navigateToHome() {
       this.$router.push({ name: 'home' })
     },
@@ -142,6 +151,14 @@ export default {
         this.$router.push({ name: 'detail', params: { movie_id: data.id } })
         this.showResults = false
       }
+    }
+  },
+  watch: {
+    // Observasi perubahan pada parameter rute 'action'
+    '$route.params.action'(newValue, oldValue) {
+      this.currentCategoryId = newValue
+      // Pembaruan komponen kategori di sini jika diperlukan
+      this.refreshCategoryComponent(newValue)
     }
   },
   beforeUnmount() {

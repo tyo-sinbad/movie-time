@@ -1,44 +1,49 @@
 <template>
   <div class="bg-secondary py-12 align-center overflow-x-auto">
     <swiper
-      :slides-per-view="5"
-      :centered-slides="true"
-      :grab-cursor="true"
-      :space-between="300"
-      :pagination="{ clickable: true }"
+      :slidesPerView="'auto'"
+      :spaceBetween="30"
       :modules="modules"
-      :initial-slide="1"
+      :pagination="{
+        clickable: true
+      }"
+      class="mySwiper"
     >
       <swiper-slide
-        class="bg-gray-100 flex justify-center items-center mr-60"
         v-for="(banner, index) in bannerData"
         :key="index"
-        ><div class="bg-gray-100 flex justify-center items-center">
-          <div class="flex flex-row w-160">
-            <img
-              :src="`https://image.tmdb.org/t/p/w780/${banner.poster_path}`"
-              alt="Banner Image"
-            />
-            <div class="bg-black my-3">
-              <div class="w-60">
-                <div class="flex flex-row items-center">
-                  <font-awesome-icon
-                    :icon="['fas', 'fa-star']"
-                    class="fa-sm ml-4 mr-1 text-yellow-500 size-3"
-                  />
-                  <h1 class="text-white font-primary font-semibold">{{ banner.vote_average }}</h1>
-                </div>
-                <h1 class="text-white font-semibold ml-4 text-2xl mt-1">{{ banner.title }}</h1>
-                <div class="flex flex-row items-center mt-1 ml-4">
-                  <h1 class="text-white font-primary font-thin text-sm">
-                    {{ banner.release_date.slice(0, 4) }}
-                  </h1>
-                  <div class="dot mx-1"></div>
-                  <h1 class="text-white font-primary font-thin text-sm">
-                    {{ banner.original_language }}
-                  </h1>
-                </div>
-              </div>
+        @click="navigateToDetail(banner.id)"
+        ><div class="flex-1 item-center w-full h-full">
+          <img
+            :src="`https://image.tmdb.org/t/p/w780/${banner.poster_path}`"
+            alt="{{banner.title}}"
+          />
+        </div>
+        <div class="flex-1 flex items-center bg-black h-96">
+          <div>
+            <div class="flex-row flex items-center">
+              <font-awesome-icon
+                :icon="['fas', 'fa-star']"
+                class="fa-sm mx-4 mr-1 text-yellow-500 size-4"
+              />
+              <h1 class="text-white font-primary font-semibold">{{ banner.vote_average }}</h1>
+            </div>
+            <div class="mx-4">
+              <h1 class="text-white font-semibold text-2xl mt-1">{{ banner.title }}</h1>
+            </div>
+            <div class="flex flex-row items-center mt-1 mx-4">
+              <h1 class="text-white font-primary text-sm">
+                {{ banner.release_date.slice(0, 4) }}
+              </h1>
+              <div class="dot mx-1"></div>
+              <h1 class="text-white font-primary text-sm">
+                {{ banner.original_language }}
+              </h1>
+            </div>
+            <div class="mt-1 mx-4">
+              <h1 class="text-white font-primary text-xs line-clamp-6">
+                {{ banner.overview }}
+              </h1>
             </div>
           </div>
         </div></swiper-slide
@@ -105,6 +110,11 @@ export default {
     SwiperSlide,
     MovieCard
   },
+  methods: {
+    navigateToDetail(id) {
+      this.$router.push({ name: 'detail', params: { movie_id: id } })
+    }
+  },
   setup() {
     const bannerData = ref([])
     const populerData = ref([])
@@ -149,6 +159,7 @@ export default {
     onMounted(async () => {
       await getBanner()
       await getPopuler()
+      console.log('banner:', bannerData)
     })
     return {
       modules: [Pagination],
@@ -163,52 +174,69 @@ export default {
 </script>
 
 <style>
-.home-page {
-  text-align: center;
-  margin-top: 100px;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 24px;
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  opacity: 0.5;
 }
-/* Mengatur dots */
+
+.swiper-pagination-bullet-active {
+  width: 52px;
+  height: 10px;
+  background-color: #e74c3c;
+  border-radius: 8px;
+  opacity: 1;
+}
+
 .swiper-pagination {
+  bottom: 10px; /* Atur posisi dots */
+}
+body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  background: #eee;
+  font-family:
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  font-size: 18px;
+
+  /* Center slide text vertically */
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
 
-/* Dots yang tidak aktif */
-.swiper-pagination-bullet {
-  width: 12px; /* Ukuran dots */
-  height: 12px; /* Ukuran dots */
-  background-color: rgba(153, 153, 153, 1); /* Warna dots tidak aktif */
-  opacity: 1; /* Tidak transparan */
-  margin-right: 8px; /* Jarak antara dots */
-  border-radius: 50%; /* Membuat dots berbentuk bulat */
-}
-
-/* Dots yang aktif (berbentuk garis) */
-.swiper-pagination-bullet-active {
-  background-color: transparent; /* Menghilangkan background dots */
-  position: relative; /* Mengatur posisi relatif */
-  margin-left: 8px; /* Jarak antara dots */
-}
-
-.swiper-pagination-bullet-active::before {
-  content: '';
-  position: absolute; /* Mengatur posisi absolut */
-  left: -22px; /* Menggeser garis agar tidak bertumpuk dengan dots */
-  top: 0; /* Posisi garis relatif terhadap dots */
+.swiper-slide img {
   display: block;
-  width: 52px; /* Panjang garis */
-  border-radius: 20px;
-  height: 12px; /* Ketebalan garis */
-  background-color: #f00; /* Warna garis */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-.dot {
-  width: 6px; /* Lebar */
-  height: 6px; /* Tinggi */
-  background-color: #8d9194; /* Warna titik */
-  border-radius: 50%; /* Membuat titik berbentuk bulat */
+
+.swiper-slide {
+  width: 40%;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 48px;
 }
 </style>

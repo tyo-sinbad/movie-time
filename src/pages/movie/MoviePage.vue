@@ -69,13 +69,13 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
         <MovieCard
-          v-for="(category, index) in categoryData"
+          v-for="(movie, index) in movieData"
           :key="index"
-          :poster="`https://image.tmdb.org/t/p/w780/${category.poster_path}`"
-          :rating="`${category.vote_average}`"
-          :title="category.title"
-          :year="category.release_date ? category.release_date.slice(0, 4) : ''"
-          :movie_id="category.id"
+          :poster="`https://image.tmdb.org/t/p/w780/${movie.poster_path}`"
+          :rating="`${movie.vote_average}`"
+          :title="movie.title"
+          :year="movie.release_date ? movie.release_date.slice(0, 4) : ''"
+          :movie_id="movie.id"
         />
       </div>
     </div>
@@ -103,7 +103,7 @@ export default {
     }
   },
   setup() {
-    const categoryData = ref([])
+    const movieData = ref([])
     const genreData = ref([])
     const isDropdownOpen = ref(false)
     const selectedFilter = ref('Filter')
@@ -113,10 +113,10 @@ export default {
     const actionId = router.currentRoute.value.params.action
     const apiUrl = ref(`${API.GET_CATEGORY}`)
 
-    const getCategory = async () => {
+    const getMovie = async () => {
       try {
         const data = await apiService.get(apiUrl.value)
-        categoryData.value = data.data.results.slice(0, 10)
+        movieData.value = data.data.results.slice(0, 10)
       } catch (error) {
         console.log(error)
       }
@@ -137,7 +137,7 @@ export default {
         genresParam = `&with_genres=${selectedGenres.value.join(',')}`
       }
       apiUrl.value = `${API.GET_CATEGORY}${sortParam}${genresParam}`
-      getCategory()
+      getMovie()
     }
 
     const handleFilterSelect = (filter) => {
@@ -162,7 +162,7 @@ export default {
     }
 
     onMounted(async () => {
-      await getCategory()
+      await getMovie()
       await getListGenre()
       const dropdownButton = document.getElementById('dropdown-button')
 
@@ -177,7 +177,7 @@ export default {
       })
     })
     return {
-      categoryData,
+      movieData,
       genreData,
       isDropdownOpen,
       selectedFilter,

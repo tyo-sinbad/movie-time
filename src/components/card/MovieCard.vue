@@ -1,5 +1,8 @@
 <template>
-  <div class="relative overflow-hidden bg-transparent rounded-lg">
+  <div
+    class="relative overflow-hidden bg-transparent rounded-lg cursor-pointer"
+    @click="navigateToDetail(movie_id)"
+  >
     <img :src="poster" alt="Movie Poster" class="w-full h-100 object-cover" />
     <div class="absolute top-4 right-4">
       <span class="text-white text-lg font-bold">{{ rating }}</span>
@@ -17,7 +20,13 @@ export default {
     poster: String,
     rating: String,
     title: String,
-    year: String
+    year: String,
+    movie_id: String
+  },
+  methods: {
+    navigateToDetail(id) {
+      this.$router.push({ name: 'detail', params: { movie_id: id } })
+    }
   }
 }
 </script>

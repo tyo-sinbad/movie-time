@@ -83,6 +83,7 @@
         :rating="`${populer.vote_average}`"
         :title="populer.title"
         :year="populer.release_date.slice(0, 4)"
+        :movie_id="populer.id"
       />
     </div>
   </div>

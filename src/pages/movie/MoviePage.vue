@@ -2,7 +2,7 @@
   <div class="my-10 mx-8">
     <div class="flex flex-col mb-10">
       <div class="w-20 h-1.5 bg-red-100 mr-2 mb-3"></div>
-      <h2 class="text-2xl text-white font-primary">Categories</h2>
+      <h2 class="text-2xl text-white font-primary">Movies</h2>
     </div>
     <div class="flex-row flex">
       <div class="h-full w-60 bg-secondary flex-0.5 mr-8 rounded-lg px-2 py-3">

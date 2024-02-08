@@ -50,7 +50,10 @@
         @mouseleave="hideCategoryMenu"
         @mouseenter="clearCategoryMenuTimeout"
       >
-        <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">CATEGORIES</a>
+        <div class="flex flex-row items-center">
+          <img src="../../../assets/icons/ic-view-grid.svg" />
+          <a href="#" class="hover:text-gray-300 text-sm px-2 font-semibold">CATEGORIES</a>
+        </div>
         <!-- Dropdown Menu -->
         <div
           v-show="showCategoryMenu"
@@ -69,8 +72,16 @@
         </div>
       </div>
 
-      <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">MOVIES</a>
-      <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">TV SHOWS</a>
+      <a
+        class="hover:text-gray-300 text-sm px-5 font-semibold cursor-pointer"
+        @click="navigateToPage('movie')"
+        >MOVIES</a
+      >
+      <a
+        class="hover:text-gray-300 text-sm px-5 font-semibold cursor-pointer"
+        @click="navigateToPage('tv')"
+        >TV SHOWS</a
+      >
       <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">LOGIN</a>
     </div>
   </nav>
@@ -103,6 +114,9 @@ export default {
     },
     navigateToHome() {
       this.$router.push({ name: 'home' })
+    },
+    navigateToPage(page: string) {
+      this.$router.push({ name: page })
     },
     async handleInput() {
       if (this.searchQuery.length > 2) {

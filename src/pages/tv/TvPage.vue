@@ -2,7 +2,7 @@
   <div class="my-10 mx-8">
     <div class="flex flex-col mb-10">
       <div class="w-20 h-1.5 bg-red-100 mr-2 mb-3"></div>
-      <h2 class="text-2xl text-white font-primary">Categories</h2>
+      <h2 class="text-2xl text-white font-primary">TV Show</h2>
     </div>
     <div class="flex-row flex">
       <div class="h-full w-60 bg-secondary flex-0.5 mr-8 rounded-lg px-2 py-3">
@@ -69,13 +69,13 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
         <MovieCard
-          v-for="(category, index) in categoryData"
+          v-for="(tv, index) in tvShowData"
           :key="index"
-          :poster="`https://image.tmdb.org/t/p/w780/${category.poster_path}`"
-          :rating="`${category.vote_average}`"
-          :title="category.title"
-          :year="category.release_date ? category.release_date.slice(0, 4) : ''"
-          :movie_id="category.id"
+          :poster="`https://image.tmdb.org/t/p/w780/${tv.poster_path}`"
+          :rating="`${tv.vote_average}`"
+          :title="tv.name"
+          :year="tv.first_air_date ? tv.first_air_date.slice(0, 4) : ''"
+          :movie_id="tv.id"
         />
       </div>
     </div>
@@ -103,7 +103,7 @@ export default {
     }
   },
   setup() {
-    const categoryData = ref([])
+    const tvShowData = ref([])
     const genreData = ref([])
     const isDropdownOpen = ref(false)
     const selectedFilter = ref('Filter')
@@ -111,12 +111,14 @@ export default {
     const selectedGenres = ref([])
     const router = useRouter()
     const actionId = router.currentRoute.value.params.action
-    const apiUrl = ref(`${API.GET_CATEGORY}`)
+    const apiUrl = ref(`${API.GET_TV_SHOW}`)
 
-    const getCategory = async () => {
+    const getTvShow = async () => {
       try {
         const data = await apiService.get(apiUrl.value)
-        categoryData.value = data.data.results.slice(0, 10)
+        tvShowData.value = data.data.results.slice(0, 10)
+        console.log('data:', data.data);
+        
       } catch (error) {
         console.log(error)
       }
@@ -124,7 +126,7 @@ export default {
 
     const getListGenre = async () => {
       try {
-        const data = await apiService.get(`${API.GET_LIST_GENRE}`)
+        const data = await apiService.get(`${API.GET_LIST_GENRE_TV}`)
         genreData.value = data.data.genres
       } catch (error) {
         console.log(error)
@@ -136,8 +138,8 @@ export default {
       if (selectedGenres.value.length > 0) {
         genresParam = `&with_genres=${selectedGenres.value.join(',')}`
       }
-      apiUrl.value = `${API.GET_CATEGORY}${sortParam}${genresParam}`
-      getCategory()
+      apiUrl.value = `${API.GET_TV_SHOW}${sortParam}${genresParam}`
+      getTvShow()
     }
 
     const handleFilterSelect = (filter) => {
@@ -162,7 +164,7 @@ export default {
     }
 
     onMounted(async () => {
-      await getCategory()
+      await getTvShow()
       await getListGenre()
       const dropdownButton = document.getElementById('dropdown-button')
 
@@ -177,7 +179,7 @@ export default {
       })
     })
     return {
-      categoryData,
+      tvShowData,
       genreData,
       isDropdownOpen,
       selectedFilter,

@@ -25,8 +25,6 @@
               />
             </div>
           </button>
-
-          <!-- Konten dropdown yang akan muncul saat tombol di klik -->
           <div
             class="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 hidden"
             role="menu"
@@ -35,7 +33,6 @@
             tabindex="-1"
           >
             <div class="py-1" role="none">
-              <!-- Item dropdown -->
               <a
                 href="#"
                 class="block px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-900 font-primary text-sm overflow-hidden whitespace-nowrap"
@@ -76,6 +73,7 @@
           :title="tv.name"
           :year="tv.first_air_date ? tv.first_air_date.slice(0, 4) : ''"
           :movie_id="tv.id"
+          :loading="isLoading"
         />
       </div>
     </div>
@@ -112,15 +110,16 @@ export default {
     const router = useRouter()
     const actionId = router.currentRoute.value.params.action
     const apiUrl = ref(`${API.GET_TV_SHOW}`)
+    const isLoading = ref(false)
 
     const getTvShow = async () => {
       try {
         const data = await apiService.get(apiUrl.value)
         tvShowData.value = data.data.results.slice(0, 10)
-        console.log('data:', data.data);
-        
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
@@ -130,6 +129,8 @@ export default {
         genreData.value = data.data.genres
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
@@ -184,12 +185,9 @@ export default {
       isDropdownOpen,
       selectedFilter,
       handleFilterSelect,
-      handleGenreSelect
+      handleGenreSelect,
+      isLoading
     }
   }
 }
 </script>
-
-<style scoped>
-/* Tambahkan gaya CSS jika diperlukan */
-</style>

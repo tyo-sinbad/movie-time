@@ -1,13 +1,10 @@
 <template>
   <nav :class="$route.name === 'detail' ? 'detail-top-nav' : 'other-top-nav'">
-    <!-- Logo -->
     <div class="flex items-center px-5 ml-24 cursor-pointer" @click="navigateToHome()">
       <img src="../../../assets/icons/movietime-logo.svg" />
     </div>
 
-    <!-- Search Bar -->
     <div :class="$route.name === 'detail' ? 'search-detail-top-nav' : 'search-other-top-nav'">
-      <!-- Left Search Icon -->
       <div class="mr-2">
         <img src="../../../assets/icons/ic_movie.svg" />
       </div>
@@ -18,11 +15,9 @@
         v-model="searchQuery"
         @input="handleInput"
       />
-      <!-- Right Search Icon -->
       <div class="ml-2">
         <font-awesome-icon :icon="['fas', 'fa-search']" class="fa-sm mr-2" />
       </div>
-      <!-- Autocomplete Dropdown -->
       <ul
         v-if="showResults"
         class="absolute bg-secondary mt-2 w-full z-50 top-10 py-2 px-4 max-h-48 overflow-y-auto"
@@ -39,9 +34,7 @@
       </ul>
     </div>
 
-    <!-- Menu -->
     <div class="flex items-center space-x-4 relative mx-4 mr-24">
-      <!-- Category Menu -->
       <div
         class="relative"
         @mouseover="showCategoryMenu = true"
@@ -52,7 +45,6 @@
           <img src="../../../assets/icons/ic-view-grid.svg" />
           <a href="#" class="hover:text-gray-300 text-sm px-2 font-semibold">CATEGORIES</a>
         </div>
-        <!-- Dropdown Menu -->
         <div
           v-show="showCategoryMenu"
           @mouseenter="clearCategoryMenuTimeout"
@@ -80,23 +72,38 @@
         @click="navigateToPage('tv')"
         >TV SHOWS</a
       >
-      <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold">LOGIN</a>
+      <a href="#" class="hover:text-gray-300 text-sm px-5 font-semibold" @click="openModal()">LOGIN</a>
+    </div>
+    <div>
+      <modal :is-open="modalOpen" @close="closeModal">
+        <div class="justify-center items-center flex flex-1">
+          <img
+            src="https://cdni.iconscout.com/illustration/premium/thumb/under-construction-building-site-4224364-3518829.png?f=webp"
+            class="w-[320px] h-full rounded-lg"
+          />
+        </div>
+      </modal>
     </div>
   </nav>
 </template>
 
 <script lang="ts">
 import { ref, onMounted } from 'vue'
+import Modal from '../../modal/Modal.vue'
 export default {
+  components: {
+    Modal
+  },
   name: 'TopNavigation',
   data() {
     return {
       showCategoryMenu: false,
       categoryMenuTimeout: null,
       searchQuery: '',
-      searchResults: [],
+      searchResults: [] as any,
       showResults: false,
-      currentCategoryId: null
+      currentCategoryId: null,
+      modalOpen: false
     }
   },
   methods: {
@@ -149,13 +156,17 @@ export default {
         this.$router.push({ name: 'detail', params: { movie_id: data.id } })
         this.showResults = false
       }
+    },
+    openModal() {
+      this.modalOpen = true
+    },
+    closeModal() {
+      this.modalOpen = false
     }
   },
   watch: {
-    // Observasi perubahan pada parameter rute 'action'
     '$route.params.action'(newValue, oldValue) {
       this.currentCategoryId = newValue
-      // Pembaruan komponen kategori di sini jika diperlukan
       this.refreshCategoryComponent(newValue)
     }
   },
@@ -163,7 +174,7 @@ export default {
     clearTimeout(this.categoryMenuTimeout as any)
   },
   setup() {
-    const genreData = ref([])
+    const genreData = ref([] as any)
 
     const getListGenre = async () => {
       try {
@@ -184,7 +195,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .detail-top-nav {
   @apply bg-regular text-white p-4 flex items-center justify-between z-50 relative bg-opacity-20;
 }
@@ -192,6 +203,7 @@ export default {
 .other-top-nav {
   @apply bg-regular text-white p-4 flex items-center justify-between z-50 relative;
 }
+
 .search-detail-top-nav {
   @apply flex relative flex-1 items-center px-4 py-2 rounded-lg bg-secondary text-white focus:outline-none focus:bg-gray-900 mx-8 font-thin placeholder-white text-base bg-opacity-20;
 }
@@ -199,9 +211,11 @@ export default {
 .search-other-top-nav {
   @apply flex relative flex-1 items-center px-4 py-2 rounded-lg bg-secondary text-white focus:outline-none focus:bg-gray-900 mx-8 font-thin placeholder-white text-base;
 }
+
 .input-detail-top-nav {
   @apply flex-1 px-2 py-1 bg-transparent text-white focus:outline-none placeholder-white;
 }
+
 .input-other-top-nav {
   @apply flex-1 px-2 py-1 bg-transparent text-white focus:outline-none;
 }

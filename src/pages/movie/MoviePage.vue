@@ -26,7 +26,6 @@
             </div>
           </button>
 
-          <!-- Konten dropdown yang akan muncul saat tombol di klik -->
           <div
             class="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 hidden"
             role="menu"
@@ -35,7 +34,6 @@
             tabindex="-1"
           >
             <div class="py-1" role="none">
-              <!-- Item dropdown -->
               <a
                 href="#"
                 class="block px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-900 font-primary text-sm overflow-hidden whitespace-nowrap"
@@ -76,6 +74,7 @@
           :title="movie.title"
           :year="movie.release_date ? movie.release_date.slice(0, 4) : ''"
           :movie_id="movie.id"
+          :loading="isLoading"
         />
       </div>
     </div>
@@ -83,6 +82,7 @@
 </template>
 
 <script lang="ts">
+// @ts-ignore
 import MovieCard from '@/components/card/MovieCard.vue'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -103,31 +103,38 @@ export default {
     }
   },
   setup() {
-    const movieData = ref([])
-    const genreData = ref([])
+    const movieData = ref([] as any)
+    const genreData = ref([] as any)
     const isDropdownOpen = ref(false)
     const selectedFilter = ref('Filter')
     const selectedFilterQuery = ref('')
-    const selectedGenres = ref([])
+    const selectedGenres = ref([] as any)
     const router = useRouter()
     const actionId = router.currentRoute.value.params.action
     const apiUrl = ref(`${API.GET_CATEGORY}`)
+    const isLoading = ref(false)
 
     const getMovie = async () => {
+      isLoading.value = true
       try {
         const data = await apiService.get(apiUrl.value)
         movieData.value = data.data.results.slice(0, 10)
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
     const getListGenre = async () => {
+      isLoading.value = true
       try {
         const data = await apiService.get(`${API.GET_LIST_GENRE}`)
         genreData.value = data.data.genres
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
@@ -182,12 +189,9 @@ export default {
       isDropdownOpen,
       selectedFilter,
       handleFilterSelect,
-      handleGenreSelect
+      handleGenreSelect,
+      isLoading
     }
   }
 }
 </script>
-
-<style scoped>
-/* Tambahkan gaya CSS jika diperlukan */
-</style>

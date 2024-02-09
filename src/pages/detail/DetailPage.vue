@@ -49,7 +49,7 @@
                 ? `https://image.tmdb.org/t/p/w500/${movieData.poster_path}`
                 : ''
             "
-            class="h-[280px] w-[336px] object-cover object-top z-50 relative"
+            class="h-[280px] w-auto object-cover object-top z-50 relative"
           />
         </div>
         <div class="ml-8">
@@ -152,7 +152,6 @@
       <div class="px-16 bg-gray-800 py-8">
         <p class="mb-6 font-primary text-white font-semibold">RECOMMENDATION MOVIES</p>
         <div id="app" class="grid grid-cols-5 gap-4">
-          <!-- Replace the array below with your actual list of movie data -->
           <MovieCard
             v-for="(rec, index) in reccomendation"
             :key="index"
@@ -161,6 +160,7 @@
             :title="rec.title"
             :year="rec.year"
             :movie_id="rec.id"
+            :loading="isLoading"
           />
         </div>
       </div>
@@ -184,8 +184,10 @@ export default {
     const movieData = ref(null)
     const reccomendation = ref([])
     const previousPage = localStorage.getItem('previousPage')
+    const isLoading = ref(false)
 
     const getDetailMovie = async () => {
+      isLoading.value = true
       try {
         const data = await apiService.get(
           `/3/${previousPage === 'tv' ? 'tv' : 'movie'}/${movieId}?api_key=cf8f6a53d30a9b0ff444944a5383c213`
@@ -193,10 +195,13 @@ export default {
         movieData.value = data.data
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
     const getReccomendation = async () => {
+      isLoading.value = true
       try {
         const data = await apiService.get(
           `/3/${previousPage === 'tv' ? 'tv' : 'movie'}/${movieId}/recommendations?api_key=cf8f6a53d30a9b0ff444944a5383c213`
@@ -204,6 +209,8 @@ export default {
         reccomendation.value = data.data.results.slice(0, 5)
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
@@ -214,7 +221,7 @@ export default {
 
     watch(router.currentRoute, (to, from) => {
       const newMovieId = parseInt(to.params.movie_id)
-      movieId = newMovieId // Atur ulang movieId saat route berubah
+      movieId = newMovieId
       getDetailMovie()
       getReccomendation()
     })
@@ -223,15 +230,14 @@ export default {
       movieId,
       movieData,
       reccomendation,
-      previousPage
+      previousPage,
+      isLoading
     }
   }
 }
 </script>
 
-
 <style scoped>
-/* No custom styles needed, only Tailwind CSS classes */
 .banner-container {
   @apply w-full h-[500px] overflow-hidden;
 }

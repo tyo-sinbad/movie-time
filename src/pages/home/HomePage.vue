@@ -51,7 +51,7 @@
     </swiper>
   </div>
 
-  <div class="home-page">
+  <div class="home-page mt-16">
     <div class="flex-row flex justify-between mx-8">
       <div>
         <div class="flex w-24 h-2 bg-red-100 mb-2"></div>
@@ -89,6 +89,7 @@
         :title="populer.title"
         :year="populer.release_date.slice(0, 4)"
         :movie_id="populer.id"
+        :loading="isLoading"
       />
     </div>
   </div>
@@ -119,31 +120,41 @@ export default {
     const bannerData = ref([])
     const populerData = ref([])
     const activeTab = ref('popularity')
+    const isLoading = ref(false)
 
     const getBanner = async () => {
+      isLoading.value = true
       try {
         const data = await apiService.get(`${API.GET_BANNER}`)
         bannerData.value = data.data.results.slice(0, 4)
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
     const getPopuler = async () => {
+      isLoading.value = true
       try {
         const data = await apiService.get(`${API.GET_POPULER}`)
         populerData.value = data.data.results.slice(0, 10)
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
     const getNewMovie = async () => {
+      isLoading.value = true
       try {
         const data = await apiService.get(`${API.GET_NEW_MOVIE}`)
         populerData.value = data.data.results.slice(0, 10)
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading.value = false
       }
     }
 
@@ -167,7 +178,8 @@ export default {
       bannerData,
       populerData,
       activeTab,
-      toggleTab
+      toggleTab,
+      isLoading
     }
   }
 }
@@ -191,7 +203,7 @@ export default {
 }
 
 .swiper-pagination {
-  bottom: 10px; /* Atur posisi dots */
+  bottom: 10px;
 }
 body {
   position: relative;
@@ -218,8 +230,6 @@ body {
 
 .swiper-slide {
   font-size: 18px;
-
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;

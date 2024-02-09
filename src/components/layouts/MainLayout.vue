@@ -17,10 +17,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 
-// Get the router instance
 const router = useRouter()
 
-// Navigation to the homepage when the component is mounted
 import { onMounted } from 'vue'
 
 onMounted(() => {

@@ -42,5 +42,5 @@ npm install
 <b>Step 2: After that, you can run the project with the command below.</b>
 
 ```bash
-npm run serve
+npm run dev
 ```
